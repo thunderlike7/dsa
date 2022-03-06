@@ -1,0 +1,352 @@
+#include <stdio.h>
+
+#include<stdlib.h>
+
+typedef struct student
+
+{
+
+ int ssn;
+
+char name[30];
+
+char dept[5];
+
+int sal;
+
+char des[15];
+
+ struct student *next,*prev;
+
+}NODE;
+
+NODE* getnode()
+
+{
+
+ NODE *x;
+
+ x=(NODE*)malloc(sizeof(NODE));
+
+ printf("\n Enter Employee Details: ");
+
+ scanf("%d %s %s %d %s",&x->ssn,x->name,x->dept,&x->sal,x->des);
+
+ x->next=x->prev=NULL;
+
+ return x;
+
+}
+
+NODE* insert_front(NODE* first)
+
+{
+
+NODE *temp;
+
+temp=getnode(first);
+
+if(first==NULL)
+
+{
+
+first=temp;
+
+}
+
+else
+
+{
+
+temp->next=first;
+
+first->prev=temp;
+
+first=temp;
+
+}
+
+return first;
+
+}
+
+NODE* insert_rear(NODE* first)
+{
+
+ NODE *temp,*cur;
+
+ if(first==NULL)
+
+ {
+
+ temp=getnode(first);
+
+ first=temp;
+
+ }
+
+ else
+
+ {
+
+ temp=getnode(first);
+
+ cur=first;
+
+ while(cur->next!=NULL)
+
+ {
+
+ cur=cur->next;
+
+ }
+
+ cur->next=temp;
+
+ temp->prev=cur;
+
+ }
+
+ return first;
+
+}
+
+NODE* delete_front(NODE* first)
+
+{
+
+ NODE *cur;
+
+ if(first==NULL)
+
+ {
+
+ printf("\n List is empty\n");
+
+ }
+
+ else if(first->next==NULL)
+
+ {
+
+ free(first);
+
+ return NULL;
+
+ }
+
+ else
+
+ {
+
+ cur=first;
+
+ first=first->next;
+
+ first->prev=NULL;
+
+ free(cur);
+
+ first->prev=NULL;
+
+ }
+
+ return first;
+
+}
+
+NODE* delete_rear(NODE* first)
+
+{
+
+ NODE *prev, *cur;
+
+ if(first==NULL)
+
+ {
+
+ printf("\n List is empty\n");
+
+ }
+ else if(first->next==NULL)
+
+ {
+
+ free(first);
+
+ return NULL;
+
+ }
+
+ else
+
+ {
+
+ prev=NULL;
+
+ cur=first;
+
+ while(cur->next!=NULL)
+
+ {
+
+ prev=cur;
+
+ cur=cur->next;
+
+ }
+
+ prev->next=NULL;
+
+ free(cur);
+
+ }
+
+ return first;
+
+}
+
+void display(NODE *first)
+
+{
+
+NODE *cur;
+
+int count=0;
+
+if(first == NULL)
+
+printf("\nNo Employee data\n");
+
+else
+
+{
+
+cur=first;
+
+printf("\nSSN\t NAME\t Dept\t Sal\t Designtn\n");
+
+while(cur!=NULL)
+
+{
+
+ printf("\n %d\t %s\t %s\t %d\t %s\n", cur->ssn, cur->name,cur->dept,cur->sal,cur->des);
+
+cur = cur->next;
+
+count++;
+
+}
+
+printf("\nThe no. of nodes in list is: %d",count);
+
+}
+
+}
+
+NODE* dequeue(NODE *first)
+
+{
+
+int ch;
+
+while(ch<6)
+
+{
+
+printf("\nDLL used as DEQUEUE...");
+
+printf("\n 1.Insert_Front \t 
+
+2.Delete_Rear\t3.Insert_rear\t4.Delete_Front\t5.Display\t 6.Exit\n");
+
+printf("\nEnter your choice: ");
+
+scanf("%d", &ch);
+
+switch(ch)
+{
+
+case 1: first=insert_front(first); break;
+
+case 2: first=delete_rear(first); break;
+
+case 3: first=insert_rear(first); break;
+
+case 4: first=delete_front(first);break;
+
+ case 5: display(first); break;
+
+case 6: exit(0);
+
+}
+
+}
+
+return first;
+
+}
+
+int main( )
+
+{
+
+ NODE *first=NULL;
+
+ int ch;
+
+ while(1)
+
+ {
+
+ printf("\n1.InsertFront\t 2. InsertRear\t 3.DeleteFront\t 4.DeleteRear\t 5.Display\t 6.Dequeue\t 
+
+7.exit\n");
+
+ printf("Enter Your Choice: ");
+
+ scanf("%d",&ch);
+
+ switch(ch)
+
+ {
+
+ case 1:first=insert_front(first);
+
+ break;
+
+ case 2:first=insert_rear(first);
+
+ break;
+
+ case 3:first=delete_front(first);
+
+ break;
+
+ case 4:first=delete_rear(first);
+
+ break;
+
+ case 5:display(first);
+
+ break;
+
+ case 6:first=dequeue(first);
+
+ break;
+
+ case 7:exit(0);
+
+ break;
+
+ default: printf("\n Invalid choice\n");
+
+ break;
+
+ }
+
+ }
+
+ return 0;
+
+}
